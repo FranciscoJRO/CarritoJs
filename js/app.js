@@ -37,9 +37,26 @@ function leerDatosCurso(curso){
         id : curso.querySelector('a').getAttribute('data-id'), //getAttribute extrae el id de cada curso en particular
         cantidad : 1
     }
-    //agrega elementos al array del carrito con sprey operator para que cuando agregesmos articulos se copien y  no se pierdan
-    articulosCarrito = [...articulosCarrito, infoCurso];
-    console.log(articulosCarrito)
+
+    //Revisa si un elemento ya existe en el carrito
+    const existe = articulosCarrito.some(curso => curso.id === infoCurso.id);
+    if(existe){
+        //Actualizamos la cantidad
+        const cursos = articulosCarrito.map(curso => {
+            if(curso.id === infoCurso.id){
+                curso.cantidad++;
+                return curso; //Retorna el objeto actualizado
+            }else{
+                return curso; //Retorna los objetos que no son duplicados
+            }
+        });
+        articulosCarrito = [...cursos];
+    }else{
+        // Fix: Change variable name from 'cursos' to 'infoCurso'
+        articulosCarrito = [...articulosCarrito, infoCurso];
+    }
+
+    console.log(articulosCarrito);
 
     //Mando llamar la funcion para agreagarlo al html
     carritoHTML();
